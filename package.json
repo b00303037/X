@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "build:gh-pages": "ng build --base-href=https://b00303037.github.io/x/",
     "test": "ng test"
   },
   "private": true,
