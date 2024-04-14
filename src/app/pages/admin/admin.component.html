@@ -1,1 +1,93 @@
-<p>admin works!</p>
+<main class="w-page">
+  <div class="p-page-padding">
+    <div class="page-header">
+      <span>訂閱管理</span>
+    </div>
+
+    <div
+      [class.hidden]="getting"
+      class="flex flex-col justify-center items-center"
+    >
+      @for (item of subList; track item.username; let last = $last) {
+      <table
+        [class.border-b]="!last"
+        class="w-full max-w-xl border-solid border-black"
+      >
+        <thead>
+          <tr>
+            <td class="leading-10 text-2xl whitespace-pre-line">
+              {{ item.username }}
+            </td>
+
+            <td class="text-end">
+              @if (item.subscription) {
+              <button
+                type="button"
+                mat-icon-button
+                (click)="toggleCollapse(item.username)"
+              >
+                <mat-icon>{{
+                  collapsed === item.username ? "expand_less" : "expand_more"
+                }}</mat-icon>
+              </button>
+              } @else {
+              <span class="text-base whitespace-pre-line"> 尚未訂閱 </span>
+              }
+            </td>
+          </tr>
+        </thead>
+
+        <tbody [class.hidden]="collapsed !== item.username">
+          @if (item.subscription) {
+          <!-- API key -->
+          <tr>
+            <td class="text-base align-top whitespace-nowrap">API key</td>
+            <td
+              class="text-xl font-mono whitespace-pre-line text-warn text-end px-4"
+            >
+              {{ item.subscription.apiKey }}
+            </td>
+          </tr>
+
+          <!-- 訂閱日期 -->
+          <tr>
+            <td class="text-base align-top whitespace-nowrap">訂閱日期</td>
+            <td class="text-xl font-mono whitespace-pre-line text-end px-4">
+              <time [title]="item.subscription.subDatetime">{{
+                item.subscription.subDatetime | date : "yyyy-MM-dd (E)"
+              }}</time>
+            </td>
+          </tr>
+
+          <!-- 有效日期 -->
+          <tr>
+            <td class="text-base align-top whitespace-nowrap">有效日期</td>
+            <td class="text-xl font-mono whitespace-pre-line text-end px-4">
+              <time [title]="item.subscription.expDatetime">{{
+                item.subscription.expDatetime | date : "yyyy-MM-dd (E)"
+              }}</time>
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan="2">
+              @if (canCancelSub(item.subscription)) {
+              <button
+                type="button"
+                mat-flat-button
+                color="warn"
+                [disabled]="cancelling"
+                (click)="onXCancelSub(item.subscription)"
+              >
+                提前取消
+              </button>
+              }
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      }
+    </div>
+  </div>
+</main>

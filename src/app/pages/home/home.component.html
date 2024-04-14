@@ -1,3 +1,61 @@
-<p>home works!</p>
+<div class="flex flex-col absolute top-0 right-0 bottom-0 left-0">
+  <header class="shadow z-10">
+    <mat-toolbar [class.fixed]="!SMQuery.matches" class="h-14" color="primary">
+      <div class="w-page flex px-4">
+        <button type="menu" mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
 
-<router-outlet></router-outlet>
+        <span class="grow"></span>
+      </div>
+    </mat-toolbar>
+  </header>
+
+  <mat-sidenav-container
+    [style.marginTop.px]="SMQuery.matches ? 0 : 56"
+    [ngClass]="
+      SMQuery.matches ? 'grow shrink basis-0' : 'grow shrink-0 basis-auto'
+    "
+  >
+    <mat-sidenav
+      #sidenav
+      [mode]="MDQuery.matches ? 'side' : 'over'"
+      [fixedInViewport]="!MDQuery.matches"
+      [fixedTopGap]="!SMQuery.matches ? 56 : !MDQuery.matches ? 64 : 0"
+      [opened]="MDQuery.matches"
+      class="w-60 pb-12"
+    >
+      <mat-nav-list>
+        @for(item of navListItems; track (i + item.label); let i = $index) {
+        <mat-list-item
+          [routerLink]="item.routerLink"
+          [routerLinkActive]="['bg-primary', 'bg-opacity-25', 'text-primary']"
+          [routerLinkActiveOptions]="routerLinkActiveOptions"
+        >
+          <div class="flex items-center">
+            <div class="w-10 h-10 flex justify-center items-center">
+              <mat-icon>{{ item.icon }}</mat-icon>
+            </div>
+
+            <span class="grow">{{ item.label }}</span>
+          </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        }
+      </mat-nav-list>
+
+      <button
+        class="absolute h-12 right-0 bottom-0 left-0 flex justify-center items-center bg-accent text-white"
+        (click)="onAuth()"
+      >
+        {{ loggedIn ? "登出" : "登入" }}
+      </button>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <main class="w-page">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

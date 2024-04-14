@@ -1,45 +1,70 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use "@angular/material" as mat;
-// Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
+@use "./styles/themes/default";
+
 @include mat.core();
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$x-primary: mat.define-palette(mat.$indigo-palette);
-$x-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$x-warn: mat.define-palette(mat.$red-palette);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$x-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $x-primary,
-      accent: $x-accent,
-      warn: $x-warn,
-    ),
-    typography: mat.define-typography-config(),
-    density: 0,
-  )
-);
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($x-theme);
+@include mat.all-component-themes(default.$theme);
 
 /* You can add global styles to this file, and also import other style files */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  table {
+    border-collapse: separate;
+  }
+}
+
+@layer components {
+  // page
+  .w-page {
+    @apply box-border w-full max-w-7xl m-auto;
+  }
+  .page-header {
+    @apply text-3xl my-4 sm:text-4xl;
+  }
+
+  // form
+  .form-box {
+    @apply grid gap-x-4;
+  }
+  .form-field-header {
+    @apply block col-span-full text-xl mb-4;
+  }
+
+  // snack-bar
+  mat-snack-bar-container > div {
+    @apply border-0 border-l-6 border-solid border-gray-400;
+
+    mat-icon {
+      @apply text-gray-400;
+    }
+  }
+  mat-snack-bar-container.success > div {
+    @apply border-indigo-400;
+
+    mat-icon {
+      @apply text-indigo-400;
+    }
+  }
+  mat-snack-bar-container.error > div {
+    @apply border-red-400;
+
+    mat-icon {
+      @apply text-red-400;
+    }
+  }
+
+  // table
+  .table-box {
+    @apply max-w-full overflow-auto;
+
+    table {
+      @apply w-full;
+    }
+  }
+}
 
 html,
 body {
@@ -48,4 +73,15 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Noto Sans TC", sans-serif;
+}
+
+/* adjustments for @angular/material */
+// button
+.mat-icon-button {
+  line-height: 1 !important;
+}
+a.mat-icon-button {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }

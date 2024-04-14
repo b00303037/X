@@ -1,1 +1,102 @@
-<p>subscription works!</p>
+<div class="p-page-padding">
+  <div class="page-header">
+    <span>我的訂閱</span>
+  </div>
+
+  <div
+    [class.hidden]="getting"
+    class="flex flex-col justify-center items-center"
+  >
+    @if (subscription) {
+    <table class="w-full max-w-xl">
+      <!-- API key -->
+      <tr>
+        <td class="text-base align-top whitespace-nowrap">API key</td>
+        <td
+          class="text-xl font-mono whitespace-pre-line text-warn text-end px-4"
+        >
+          {{ subscription.apiKey }}
+        </td>
+      </tr>
+
+      <!-- 訂閱日期 -->
+      <tr>
+        <td class="text-base align-top whitespace-nowrap">訂閱日期</td>
+        <td class="text-xl font-mono whitespace-pre-line text-end px-4">
+          <time [title]="subscription.subDatetime">{{
+            subscription.subDatetime | date : "yyyy-MM-dd (E)"
+          }}</time>
+        </td>
+      </tr>
+
+      <!-- 有效日期 -->
+      <tr>
+        <td class="text-base align-top whitespace-nowrap">有效日期</td>
+        <td class="text-xl font-mono whitespace-pre-line text-end px-4">
+          <time [title]="subscription.expDatetime">{{
+            subscription.expDatetime | date : "yyyy-MM-dd (E)"
+          }}</time>
+        </td>
+      </tr>
+
+      <!-- 使用紀錄 -->
+      <tr>
+        <td colspan="2" class="text-base align-top whitespace-nowrap">
+          使用紀錄
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <table class="w-full">
+            <thead>
+              <tr class="text-sm text-center">
+                <td class="border-b border-solid border-black">年月</td>
+                <td class="border-b border-solid border-black">次數</td>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (record of monthlyUsageList; track record.yyyyMM; let last =
+              $last) {
+              <tr class="text-base text-center">
+                <td
+                  [class.border-b]="!last"
+                  class="border-dashed border-black whitespace-nowrap font-mono px-2"
+                >
+                  {{ record.yyyyMM }}
+                </td>
+                <td
+                  [class.border-b]="!last"
+                  class="border-dashed border-black px-2"
+                >
+                  {{ record.count | number : "1.0-0" }}
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+    } @else {
+    <div class="w-full max-w-sm form-box grid-cols-1">
+      <mat-radio-group [(ngModel)]="months" class="flex flex-col col-span-1">
+        <mat-radio-button value="1">1 個月</mat-radio-button>
+        <mat-radio-button value="6">6 個月</mat-radio-button>
+        <mat-radio-button value="12">12 個月</mat-radio-button>
+      </mat-radio-group>
+
+      <button
+        type="button"
+        mat-flat-button
+        color="primary"
+        class="col-span-1"
+        [disabled]="subscribing"
+        (click)="onXSubscribe()"
+      >
+        訂閱
+      </button>
+    </div>
+    }
+  </div>
+</div>
