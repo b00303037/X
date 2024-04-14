@@ -80,6 +80,8 @@ export class ServiceComponent implements OnDestroy {
 
     this.snackBarService.add({ message: err.message, type: SnackType.Error });
 
+    this.n = undefined;
+
     return EMPTY;
   }
 
