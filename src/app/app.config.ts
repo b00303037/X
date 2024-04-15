@@ -1,6 +1,6 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withHashLocation } from '@angular/router';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -30,7 +30,7 @@ const DATE_FORMATS: MatDateFormats = {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimationsAsync(),
-    provideRouter(routes),
+    provideRouter(routes, withHashLocation()),
     importProvidersFrom(
       JwtModule.forRoot({
         config: {

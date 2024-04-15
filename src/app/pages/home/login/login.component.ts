@@ -118,7 +118,7 @@ export class LoginComponent implements OnDestroy {
               type: SnackType.Success,
             });
 
-            this.router.navigate(['/home', 'subscription']);
+            this.router.navigate(['/subscription']);
           } else {
             // TODO ?
           }

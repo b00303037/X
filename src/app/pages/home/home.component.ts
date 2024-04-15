@@ -51,12 +51,12 @@ export class HomeComponent implements OnDestroy {
     {
       icon: 'subscriptions',
       label: '訂閱',
-      routerLink: '/home/subscription',
+      routerLink: '/subscription',
     },
     {
       icon: 'support',
       label: '服務',
-      routerLink: '/home/service',
+      routerLink: '/service',
     },
   ];
 

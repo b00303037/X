@@ -10,16 +10,15 @@ import { authGuard } from './shared/guards/auth.guard';
 
 export const routes: Routes = [
   {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'home',
-  },
-  {
     path: 'login',
     component: LoginComponent,
   },
   {
-    path: 'home',
+    path: 'admin',
+    component: AdminComponent,
+  },
+  {
+    path: '',
     component: HomeComponent,
     canActivate: [authGuard],
     canActivateChild: [authGuard],
@@ -35,11 +34,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'admin',
-    component: AdminComponent,
-  },
-  {
     path: '**',
-    redirectTo: 'home',
+    redirectTo: 'subscription',
   },
 ];
