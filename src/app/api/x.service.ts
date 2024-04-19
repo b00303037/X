@@ -17,6 +17,10 @@ import {
 import { XGetSubReq, XGetSubRes } from './models/x/x-get-sub.models';
 import { XLoginReq, XLoginRes } from './models/x/x-login.models';
 import { XSubscribeReq, XSubscribeRes } from './models/x/x-subscribe.models';
+import {
+  XUpdateExpDatetimeReq,
+  XUpdateExpDatetimeRes,
+} from './models/x/x-update-exp-datetime.models';
 
 @Injectable({
   providedIn: 'root',
@@ -70,6 +74,16 @@ export class XService extends BaseApiService implements AbstractXService {
 
     return super
       .post<XGetSubListReq, XGetSubListRes>(apiUri, req)
+      .pipe(switchMap((res) => super.throwNotIn(acceptedCodes, res)));
+  }
+  XUpdateExpDatetime(
+    req: XUpdateExpDatetimeReq
+  ): Observable<XUpdateExpDatetimeRes> {
+    const apiUri = this.baseRoute + '/XUpdateExpDatetime';
+    const acceptedCodes: Array<BaseAPICode> = [BaseAPICode.SUCCESS];
+
+    return super
+      .post<XUpdateExpDatetimeReq, XUpdateExpDatetimeRes>(apiUri, req)
       .pipe(switchMap((res) => super.throwNotIn(acceptedCodes, res)));
   }
 }

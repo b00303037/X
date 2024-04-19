@@ -13,6 +13,10 @@ import {
 } from '../models/x/x-get-sub-list.models';
 import { XGetSubReq, XGetSubRes } from '../models/x/x-get-sub.models';
 import { XSubscribeReq, XSubscribeRes } from '../models/x/x-subscribe.models';
+import {
+  XUpdateExpDatetimeReq,
+  XUpdateExpDatetimeRes,
+} from '../models/x/x-update-exp-datetime.models';
 
 @Injectable({
   providedIn: 'root',
@@ -31,4 +35,8 @@ export abstract class AbstractXService {
   abstract XCancelSub(req: XCancelSubReq): Observable<XCancelSubRes>;
 
   abstract XGetSubList(req: XGetSubListReq): Observable<XGetSubListRes>;
+
+  abstract XUpdateExpDatetime(
+    req: XUpdateExpDatetimeReq
+  ): Observable<XUpdateExpDatetimeRes>;
 }

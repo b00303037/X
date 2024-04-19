@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DatePipe, NgForOf, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import {
   EMPTY,
@@ -19,11 +20,23 @@ import { BaseAPIResModel } from '../../api/models/base-api.models';
 import { SnackType } from '../../shared/enums/snack-type.enum';
 import { XCancelSubReq } from '../../api/models/x/x-cancel-sub.models';
 import { isBefore } from 'date-fns';
+import {
+  UpdateExpDatetimeDialogData,
+  UpdateExpDatetimeDialogResult,
+} from './update-exp-datetime-dialog/update-exp-datetime-dialog.models';
+import { UpdateExpDatetimeDialogComponent } from './update-exp-datetime-dialog/update-exp-datetime-dialog.component';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [NgIf, NgForOf, MatButtonModule, MatIconModule, DatePipe],
+  imports: [
+    NgIf,
+    NgForOf,
+    MatButtonModule,
+    MatDialogModule,
+    MatIconModule,
+    DatePipe,
+  ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
 })
@@ -41,6 +54,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   cancelling = false;
 
   constructor(
+    private matDialog: MatDialog,
     private xService: AbstractXService,
     private snackBarService: SnackBarService
   ) {}
@@ -102,6 +116,25 @@ export class AdminComponent implements OnInit, OnDestroy {
           this.onXGetSubList();
         }),
         catchError((err) => this.onError(err))
+      )
+      .subscribe();
+  }
+
+  openUpdateExpDatetimeDialog(data: UpdateExpDatetimeDialogData): void {
+    this.matDialog
+      .open<
+        UpdateExpDatetimeDialogComponent,
+        UpdateExpDatetimeDialogData,
+        UpdateExpDatetimeDialogResult
+      >(UpdateExpDatetimeDialogComponent, { data })
+      .afterClosed()
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((result) => {
+          if (result) {
+            this.onXGetSubList();
+          }
+        })
       )
       .subscribe();
   }

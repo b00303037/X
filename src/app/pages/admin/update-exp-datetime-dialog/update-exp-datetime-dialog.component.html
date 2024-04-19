@@ -1,0 +1,112 @@
+<h1 mat-dialog-title>更新有效時間</h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="fg" class="form-box grid-cols-2">
+    <!-- 日期 -->
+    <mat-form-field
+      (click)="datepicker.open()"
+      class="col-span-2 cursor-pointer sm:col-span-1"
+    >
+      <mat-label>日期</mat-label>
+      <input
+        matInput
+        [matDatepicker]="datepicker"
+        [formControl]="fcs['date']"
+        readonly
+        tabindex="-1"
+        class="cursor-pointer"
+      />
+
+      <mat-icon
+        *ngIf="fcs['date'].value; else dateToggle"
+        matSuffix
+        color="primary"
+        matTooltip="清除"
+        (click)="clearDateAndTime()"
+        appStopClickPropagation
+      >
+        clear
+      </mat-icon>
+      <ng-template #dateToggle>
+        <mat-icon matSuffix color="primary" matTooltip="選擇日期">
+          today
+        </mat-icon>
+      </ng-template>
+
+      <mat-error *ngIf="fcs['date'].hasError('required')"
+        >請選擇&nbsp;<strong>日期</strong></mat-error
+      >
+
+      <mat-datepicker #datepicker [touchUi]="!SMQuery.matches"></mat-datepicker>
+    </mat-form-field>
+
+    <div class="flex col-span-2 sm:col-span-1">
+      <!-- 時 -->
+      <mat-form-field class="w-1/2">
+        <mat-label>時</mat-label>
+        <input
+          type="number"
+          inputmode="numeric"
+          matInput
+          [formControl]="fcs['hours']"
+          required
+          min="0"
+          max="23"
+          step="1"
+          autocomplete="off"
+        />
+
+        <mat-error *ngIf="fcs['hours'].hasError('required')"
+          >請輸入&nbsp;<strong>時</strong></mat-error
+        >
+        <mat-error *ngIf="fcs['hours'].hasError('pattern')"
+          ><strong>時</strong>&nbsp;格式有誤</mat-error
+        >
+      </mat-form-field>
+
+      <!-- 分 -->
+      <mat-form-field class="w-1/2">
+        <mat-label>分</mat-label>
+        <input
+          type="number"
+          inputmode="numeric"
+          matInput
+          [formControl]="fcs['minutes']"
+          required
+          min="0"
+          max="59"
+          step="1"
+          autocomplete="off"
+        />
+
+        <mat-error *ngIf="fcs['minutes'].hasError('required')"
+          >請輸入&nbsp;<strong>分</strong></mat-error
+        >
+        <mat-error *ngIf="fcs['minutes'].hasError('pattern')"
+          ><strong>分</strong>&nbsp;格式有誤</mat-error
+        >
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button
+    type="button"
+    mat-button
+    [disabled]="updating"
+    [mat-dialog-close]="false"
+  >
+    取消
+  </button>
+
+  <button
+    type="button"
+    mat-flat-button
+    color="primary"
+    [disabled]="updating"
+    (click)="onXUpdateExpDatetime()"
+  >
+    更新
+  </button>
+</div>

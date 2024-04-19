@@ -77,10 +77,10 @@ body {
 
 /* adjustments for @angular/material */
 // button
-.mat-icon-button {
+.mat-mdc-icon-button {
   line-height: 1 !important;
 }
-a.mat-icon-button {
+a.mat-mdc-icon-button {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
